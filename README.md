@@ -240,4 +240,60 @@ Configure SELinux Policies. copy the code line by line ans run
 
   ![Mysql Secure Installation](./Images/mysql-secure.png)
 
-  
+  `sudo systemctl restart mysqld`
+
+  `sudo systemctl enable mysqld`
+
+
+## Configure DB to work with WordPress
+
+`sudo mysql -u root -p`
+
+```
+sudo mysql
+CREATE DATABASE wordpress;
+CREATE USER `wordpress`@`%` IDENTIFIED BY 'wordpress';
+GRANT ALL ON wordpress.* TO 'myuser'@'%';
+FLUSH PRIVILEGES;
+SHOW DATABASES;
+exit
+```
+`sudo vi /etc/my.cnf`
+
+Insert the following inside for mysql connection
+
+```
+bind-address = 0.0.0.0
+````
+`sudo systemctl restart mysqld`
+
+## Configure WordPress on Web Server to connect to remote database
+
+`sudo yum install mysql`
+
+Edit the PHP config to use the DB name, DB User, DB Password and DB Host to what is configured on the DB server.
+
+`sudo vi wp-config.php`
+
+  ![PHP Config](./Images/php-config.png)
+
+`sudo mysql -u admin -p -h <DB-Server-Private-IP-address>`
+
+`Show databases`
+
+![Website and Database Connection](./Images/web-database-conn.png)
+
+http://18.168.151.77/wordpress/
+
+![Wordpress Landing Page](./Images/wordpress-landing.png)
+
+![Wordpress Installation ](./Images/wordpress-installation.png)
+
+
+
+
+
+
+
+
+
